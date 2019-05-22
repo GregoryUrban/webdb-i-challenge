@@ -43,9 +43,31 @@ WHERE CustomerName = "Bilbo Baggins"
 ;
 
 ## list orders grouped by customer showing the number of orders per customer. _Rattlesnake Canyon Grocery_ should have 7 orders.
+SELECT COUNT(Orders.CustomerID) AS OrderCount, Customers.CustomerName, Orders.OrderID,  Orders.OrderDate
+FROM Orders
+INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID
+GROUP BY Customers.CustomerName
+;
 
 ## list customers names and the number of orders per customer. Sort the list by number of orders in descending order. _Ernst Handel_ should be at the top with 10 orders followed by _QUICK-Stop_, _Rattlesnake Canyon Grocery_ and _Wartian Herkku_ with 7 orders each.
+SELECT COUNT(Orders.CustomerID) as OrderCount, Customers.CustomerName
+FROM Orders
+INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID
+GROUP BY Customers.CustomerName
+ORDER BY OrderCount DESC
+;
 
 ## list orders grouped by customer's city showing number of orders per city. Returns 58 Records with _Aachen_ showing 2 orders and _Albuquerque_ showing 7 orders.
+SELECT COUNT(Orders.CustomerID) as OrderCount, Customers.CustomerName, Customers.City
+FROM Orders
+INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID
+GROUP BY Customers.City
+ORDER BY Customers.City
 
 ## delete all users that have no orders. Should delete 17 (or 18 if you haven't deleted the record added) records.
+DELETE FROM Customers
+WHERE NOT EXISTS (
+    SELECT *
+    FROM Orders
+    WHERE Customers.CustomerID=Orders.CustomerID
+)
