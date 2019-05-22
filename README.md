@@ -1,5 +1,5 @@
 # SQL Exercises
-
+[x] Created Pull Request
 ## Topics
 
 - Structured Query Language (SQL)
